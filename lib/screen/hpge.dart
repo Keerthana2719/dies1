@@ -221,3 +221,349 @@ class _PageeState extends State<Pagee> {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+// import 'package:flutter/material.dart';
+
+// class Formm extends StatefulWidget {
+//   const Formm({super.key});
+
+//   @override
+//   State<Formm> createState() => _FormmState();
+// }
+
+// class _FormmState extends State<Formm> {
+//   final List<Map<String, String>> pagesList = [
+//     {'name': 'A3', 'ups': '10', 'price': '500'},
+//     {'name': 'A4', 'ups': '8', 'price': '400'},
+//     {'name': 'A5', 'ups': '6', 'price': '300'},
+//   ];
+
+//   final List<String> machines = ['Machine 1', 'Machine 2', 'Machine 3'];
+//   final List<String> colors = ['Black', 'Color'];
+//   final List<Map<String, String>> laminations = [
+//     {'name': 'Glossy', 'price': '100'},
+//     {'name': 'Matte', 'price': '120'},
+//   ];
+
+//   List<Map<String, TextEditingController>> formSections = [];
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     addNewSection(); // Start with one section
+//   }
+
+//   void addNewSection() {
+//     setState(() {
+//       formSections.add({
+//         "nameController": TextEditingController(),
+//         "pagesController": TextEditingController(),
+//         "papersController": TextEditingController(),
+//         "upsController": TextEditingController(),
+//         "noOfPapersController": TextEditingController(),
+//         "machineController": TextEditingController(),
+//         "colorController": TextEditingController(),
+//         "laminationController": TextEditingController(),
+//       });
+//     });
+//   }
+
+//   void deleteSection(int index) {
+//     setState(() {
+//       formSections[index].values.forEach((controller) => controller.dispose());
+//       formSections.removeAt(index);
+//     });
+//   }
+
+//   void calculateNoOfPapers(int index) {
+//     var pagesText = formSections[index]["pagesController"]!.text;
+//     var upsText = formSections[index]["upsController"]!.text;
+
+//     if (pagesText.isNotEmpty && upsText.isNotEmpty) {
+//       int pages = int.tryParse(pagesText) ?? 0;
+//       int ups = int.tryParse(upsText) ?? 1;
+//       int result = ups > 0 ? (pages / ups).ceil() : 0;
+//       formSections[index]["noOfPapersController"]!.text = result.toString();
+//     }
+//   }
+
+//   @override
+//   void dispose() {
+//     for (var section in formSections) {
+//       section.values.forEach((controller) => controller.dispose());
+//     }
+//     super.dispose();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: const Text('Form Example')),
+//       body: SingleChildScrollView(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Column(
+//           children: [
+//             ListView.builder(
+//               shrinkWrap: true,
+//               physics: const NeverScrollableScrollPhysics(),
+//               itemCount: formSections.length,
+//               itemBuilder: (context, index) {
+//                 return Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     const Text('Name'),
+//                     TextField(
+//                       controller: formSections[index]["nameController"],
+//                       decoration: const InputDecoration(border: OutlineInputBorder()),
+//                     ),
+//                     const SizedBox(height: 10),
+
+//                     /// 🔹 Row for No. of Pages, Papers (Dropdown), and UPS
+//                     Row(
+//                       children: [
+//                         Expanded(
+//                           child: Column(
+//                             crossAxisAlignment: CrossAxisAlignment.start,
+//                             children: [
+//                               const Text('No. of Pages'),
+//                               TextField(
+//                                 controller: formSections[index]["pagesController"],
+//                                 keyboardType: TextInputType.number,
+//                                 decoration: const InputDecoration(border: OutlineInputBorder()),
+//                                 onChanged: (value) => calculateNoOfPapers(index),
+//                               ),
+//                             ],
+//                           ),
+//                         ),
+//                         const SizedBox(width: 10),
+//                         Expanded(
+//                           child: Column(
+//                             crossAxisAlignment: CrossAxisAlignment.start,
+//                             children: [
+//                               const Text('Papers'),
+//                               DropdownButtonFormField<Map<String, String>>(
+//                                 items: pagesList.map((page) {
+//                                   return DropdownMenuItem(
+//                                     value: page,
+//                                     child: Text("${page['name']} - ${page['ups']} UPS - ₹${page['price']}"),
+//                                   );
+//                                 }).toList(),
+//                                 onChanged: (value) {
+//                                   if (value != null) {
+//                                     setState(() {
+//                                       formSections[index]["papersController"]!.text = value['name']!;
+//                                       formSections[index]["upsController"]!.text = value['ups']!;
+//                                       calculateNoOfPapers(index);
+//                                     });
+//                                   }
+//                                 },
+//                                 decoration: const InputDecoration(border: OutlineInputBorder()),
+//                               ),
+//                             ],
+//                           ),
+//                         ),
+//                         const SizedBox(width: 10),
+//                         Expanded(
+//                           child: Column(
+//                             crossAxisAlignment: CrossAxisAlignment.start,
+//                             children: [
+//                               const Text('UPS'),
+//                               TextField(
+//                                 controller: formSections[index]["upsController"],
+//                                 decoration: const InputDecoration(border: OutlineInputBorder()),
+//                                 readOnly: true,
+//                               ),
+//                             ],
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                     const SizedBox(height: 10),
+
+//                     /// 🔹 Row for No. of Papers
+//                     Row(
+//                       children: [
+//                         Expanded(
+//                           child: Column(
+//                             crossAxisAlignment: CrossAxisAlignment.start,
+//                             children: [
+//                               const Text('No. of Papers'),
+//                               TextField(
+//                                 controller: formSections[index]["noOfPapersController"],
+//                                 decoration: const InputDecoration(border: OutlineInputBorder()),
+//                                 readOnly: true,
+//                               ),
+//                             ],
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+
+//                     /// 🔹 Machine, Color, and Lamination Selection
+//                     Container(
+//                       margin: const EdgeInsets.symmetric(vertical: 10),
+//                       padding: const EdgeInsets.all(16.0),
+//                       decoration: BoxDecoration(
+//                         border: Border.all(color: Colors.black),
+//                         borderRadius: BorderRadius.circular(10),
+//                       ),
+//                       child: Column(
+//                         children: [
+//                           Row(
+//                             children: const [
+//                               Expanded(child: Text('Machine')),
+//                               Expanded(child: Text('Color')),
+//                               Expanded(child: Text('Lamination')),
+//                             ],
+//                           ),
+//                           const SizedBox(height: 10),
+//                           Row(
+//                             children: [
+//                               Expanded(
+//                                 child: DropdownButtonFormField(
+//                                   items: machines.map((machine) {
+//                                     return DropdownMenuItem(
+//                                       value: machine,
+//                                       child: Text(machine),
+//                                     );
+//                                   }).toList(),
+//                                   onChanged: (value) {
+//                                     setState(() {
+//                                       formSections[index]["machineController"]!.text = value!;
+//                                     });
+//                                   },
+//                                   decoration: const InputDecoration(border: OutlineInputBorder()),
+//                                 ),
+//                               ),
+//                               const SizedBox(width: 10),
+//                               Expanded(
+//                                 child: DropdownButtonFormField(
+//                                   items: colors.map((color) {
+//                                     return DropdownMenuItem(
+//                                       value: color,
+//                                       child: Text(color),
+//                                     );
+//                                   }).toList(),
+//                                   onChanged: (value) {
+//                                     setState(() {
+//                                       formSections[index]["colorController"]!.text = value!;
+//                                     });
+//                                   },
+//                                   decoration: const InputDecoration(border: OutlineInputBorder()),
+//                                 ),
+//                               ),
+//                               const SizedBox(width: 10),
+//                               Expanded(
+//                                 child: DropdownButtonFormField(
+//                                   items: laminations.map((lamination) {
+//                                     return DropdownMenuItem(
+//                                       value: lamination['name'],
+//                                       child: Text(lamination['name']!),
+//                                     );
+//                                   }).toList(),
+//                                   onChanged: (value) {
+//                                     setState(() {
+//                                       formSections[index]["laminationController"]!.text = value!;
+//                                     });
+//                                   },
+//                                   decoration: const InputDecoration(border: OutlineInputBorder()),
+//                                 ),
+//                               ),
+//                             ],
+//                           ),
+//                            Row(
+//                             children: const [
+//                               Expanded(child: Text('Machine')),
+//                               Expanded(child: Text('Color')),
+//                               Expanded(child: Text('Lamination')),
+//                             ],
+//                           ),
+//                           const SizedBox(height: 10),
+//                           Row(
+//                             children: [
+//                               Expanded(
+//                                 child: DropdownButtonFormField(
+//                                   items: machines.map((machine) {
+//                                     return DropdownMenuItem(
+//                                       value: machine,
+//                                       child: Text(machine),
+//                                     );
+//                                   }).toList(),
+//                                   onChanged: (value) {
+//                                     setState(() {
+//                                       formSections[index]["machineController"]!.text = value!;
+//                                     });
+//                                   },
+//                                   decoration: const InputDecoration(border: OutlineInputBorder()),
+//                                 ),
+//                               ),
+//                               const SizedBox(width: 10),
+//                               Expanded(
+//                                 child: DropdownButtonFormField(
+//                                   items: colors.map((color) {
+//                                     return DropdownMenuItem(
+//                                       value: color,
+//                                       child: Text(color),
+//                                     );
+//                                   }).toList(),
+//                                   onChanged: (value) {
+//                                     setState(() {
+//                                       formSections[index]["colorController"]!.text = value!;
+//                                     });
+//                                   },
+//                                   decoration: const InputDecoration(border: OutlineInputBorder()),
+//                                 ),
+//                               ),
+//                               const SizedBox(width: 10),
+//                               Expanded(
+//                                 child: DropdownButtonFormField(
+//                                   items: laminations.map((lamination) {
+//                                     return DropdownMenuItem(
+//                                       value: lamination['name'],
+//                                       child: Text(lamination['name']!),
+//                                     );
+//                                   }).toList(),
+//                                   onChanged: (value) {
+//                                     setState(() {
+//                                       formSections[index]["laminationController"]!.text = value!;
+//                                     });
+//                                   },
+//                                   decoration: const InputDecoration(border: OutlineInputBorder()),
+//                                 ),
+//                               ),
+//                             ],
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+
+//                     /// 🔹 Delete Button
+//                     IconButton(
+//                       onPressed: () => deleteSection(index),
+//                       icon: const Icon(Icons.delete, size: 30),
+//                     ),
+//                   ],
+//                 );
+//               },
+//             ),
+
+//             /// 🔹 Add New Section Button
+//             IconButton(
+//               onPressed: addNewSection,
+//               icon: const Icon(Icons.add, size: 30),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
